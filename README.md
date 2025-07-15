@@ -1,13 +1,64 @@
 # react-admin-panel
-# React + Vite
+# React + Material Ui + React Router + Tailwind Css
+<p align="center">
+This is my first official project. A fairly advanced admin panel for managing educational, sales, and other sites
+</p>
+<p align="center">
+  Designed with the latest technologies mentioned below
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Project details
+Dashboard : 
 
-Currently, two official plugins are available:
+![Dashboard](./src/assets/screenshot/dashboard.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<h2>Feachers :</h2>
+<p>General statistics of articles, posts and users</p>
+<p>Display site sales statistics and best-selling products</p>
+<p>Show high-transaction users</p>
+<p>Updating ...</p>
 
-## Expanding the ESLint configuration
+User Panel :
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+![user panel](./src/assets/screenshot/users.png)
+<h2>Feachers :</h2>
+<p>CRUD in new update (delete available)</p>
+<p>filter user with Name , family and role(in update)</p>
+<p>Pagintion feacher</p>
+<p>Updating ...</p>
+
+# instalation
+instal dependencies
+```bash
+npm i
+```
+run json-sever fake backEnd
+```bash
+npm run server
+```
+at the last run project
+```bash
+npm run dev
+```
+
+# Technologies 💻
+frontEnd :
+
+React
+
+Tailwind Css
+
+Styles-component
+
+Material Ui
+
+React Router
+
+Motion js
+
+Fake BackEnd :
+json-server
+
+<h1 align="center">
+  Thank you for your comments and suggestions for new features.
+</h1>

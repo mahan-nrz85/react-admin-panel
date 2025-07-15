@@ -32,7 +32,7 @@ instal dependencies
 ```bash
 npm i
 ```
-run json-sever fake backEnd
+run json-server fake backEnd
 ```bash
 npm run server
 ```

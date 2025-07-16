@@ -6,6 +6,8 @@ import Loading from '../components/Loading';
 import styled from 'styled-components';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 import { AnimatePresence, motion } from "motion/react"
+import Button from '@mui/material/Button';
+import DialogBox from '../components/Dialog';
 const Styles = styled.div`
   thead {
     background-color: #6363b4;
@@ -54,10 +56,22 @@ const Styles = styled.div`
     font-size: 14px;
     color: white;
   }
+  select {
+    cursor: pointer;
+  }
   option {
+    cursor: pointer;
     background-color: #252537;
   }
 
+  .add-btn {
+    border: 1px solid #6363b4;
+    font-family: vazir;
+  }
+  .inp-add {
+    border: 1px solid #6363b4 !important;
+
+  }
 `
 function Ad_Users() {
   const [users , setUser] = useState([]);
@@ -66,9 +80,18 @@ function Ad_Users() {
   const [ItemPerPage , setItemPerPage] = useState(7)
   const [searchValue , setSearchValue] = useState('')
   const [roleFilter , setRoleFilter] = useState('')
+  const [openDialog , setOpenDialog] = useState(false)
+  const [errors, setErrors] = useState({});
+  const [userInfo , setUserInfo] = useState({
+    firstName : '',
+    lastName : '',
+    email : '',
+    role : '',
+  })
   useEffect(() => {
     fetchUsers()
   } , [])
+  
   const fetchUsers = async () => {
     setLoading(true)
     try {
@@ -83,7 +106,6 @@ function Ad_Users() {
     setLoading(false)
   }
   const deleteUser = async (id) => {    
-    event.preventDefault()
     try {
       const req = await fetch(`http://localhost:4000/users/${id}` , {
         method : 'DELETE'
@@ -91,10 +113,10 @@ function Ad_Users() {
       
       if(req.ok){
         let userIndex = filterUser.findIndex(user => user.id === id)
-        console.log("index =>" , userIndex);
-        
-        if(userIndex != -1) {
-          filterUser.splice(userIndex , 1);
+        if(userIndex !== -1) {
+          let temp = [...filterUser]
+          temp.splice(userIndex , 1);
+          setUser(temp)
         }
       } else {
         enqueueSnackbar("خطا در حذف کاربر" , {variant : "error"})
@@ -103,6 +125,41 @@ function Ad_Users() {
       enqueueSnackbar(`${error.message}` , {variant : "error"})
     }
   }
+  const addUser = async (e) => {
+  if (validateInputs()) {
+    try {
+      const req = await fetch('http://localhost:4000/users', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          email: userInfo.email,
+          role: userInfo.role,
+        })
+      });
+      if(req.ok){
+        let newUser = {
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          email: userInfo.email,
+          role: userInfo.role,
+        }
+        setUser(prev => [...prev , newUser])
+        enqueueSnackbar("کاربر با موفقیت اضافه شد" , {variant : "success"})
+        setOpenDialog(false)
+      }
+    } catch (err) {
+      console.error('Fetch error:', err);
+    }
+  } else {
+    Object.entries(errors).map(val => {
+      return enqueueSnackbar(val[1] , {variant:"error"})
+    })
+  }
+}
   // user search handle
   const searchUser = () => {
     let filterUser = [...users];
@@ -114,7 +171,35 @@ function Ad_Users() {
     }
     return filterUser
   }
-  
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+  // input change handler
+  const changeInputHandler = (event) => {
+    let {name , value} = event.target
+    setUserInfo(prev => ({
+      ...prev,
+      [name] : value
+    }))
+    validateInputs();
+  }
+  // validation func
+  const validateInputs = () => {
+    let errors = {}
+    if(!userInfo.firstName){
+      errors.firstName = 'فیلد نام اجباری است'
+    }
+    if(!userInfo.lastName){
+      errors.lastName = 'فیلد نام خانوادگی اجباری است'
+    }
+    if(!userInfo.email){
+      errors.email = 'فیلد ایمیل اجباری است'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userInfo.email)) {
+      errors.email = 'فرمت ایمیل نامعتبر است';
+    }
+    setErrors(errors)
+    return Object.keys(errors).length === 0
+  }
   let filterUser = searchUser();
   let countPage = Math.ceil(filterUser.length / ItemPerPage);
   let sItem = (currentPage - 1 ) * ItemPerPage;
@@ -138,30 +223,41 @@ function Ad_Users() {
                   )
                   : 
                   (
+                    // user Filter
                     <>
-                      <div className='search-user  flex items-center gap-2 '>
-                        <p className='!mb-[0.5rem] w-[10%]'>فیلتر کاربران</p>
-                        <input 
-                          type='text'
-                          placeholder='جستجو کاربر'
-                          className='inp-search'
-                          onChange={(event) => {
-                            setSearchValue(event.target.value)
-                          }}
-                        />
-                        <select 
-                          type='text'
-                          placeholder='جستجو کاربر'
-                          className='inp-search w-[15%]'
-                          onChange={(event) => {
-                              enqueueSnackbar("تو آپدیت بعدی اضافه میشه 😉" , {variant : "info"})
-                            setRoleFilter(event.target.value)
-                          }}
-                        >
-                          <option value={'مدیر'}>مدیر</option>
-                          <option value={'کاربر'}>کاربر</option>
-                          <option value={'پشتیبانی'}>پشتیبانی</option>
-                        </select>
+                      <div className='search-user  flex justify-between  '>
+                        <div className='flex items-center gap-5'>
+                          <p className='!mb-[0.5rem]'>فیلتر کاربران</p>
+                          <input 
+                            type='text'
+                            placeholder='جستجو کاربر'
+                            className='inp-search'
+                            onChange={(event) => {
+                              setSearchValue(event.target.value)
+                            }}
+                          />
+                          <select 
+                            type='text'
+                            placeholder='جستجو کاربر'
+                            className='inp-search'
+                            onChange={(event) => {
+                                enqueueSnackbar("تو آپدیت بعدی اضافه میشه 😉" , {variant : "info"})
+                              setRoleFilter(event.target.value)
+                            }}
+                          >
+                            <option value={'مدیر'}>مدیر</option>
+                            <option value={'کاربر'}>کاربر</option>
+                            <option value={'پشتیبانی'}>پشتیبانی</option>
+                          </select>
+                        </div>
+                        {/* Add user btn */}
+                        <div>
+                          <Button 
+                            variant="outlined"
+                            className='add-btn'
+                            onClick={() => setOpenDialog(true)}
+                          >اضافه کردن کاربر</Button>
+                        </div>
                       </div>
                       <table className='w-full text-center'>
                         <thead>
@@ -189,15 +285,14 @@ function Ad_Users() {
                                         enqueueSnackbar("تو آپدیت بعدی اضافه میشه 😉" , {variant : "info"})
                                       }}
                                     >ویرایش</button>
-                                    <button 
+                                    <div 
                                       className='action-btn'
-                                      onClick={(event) => {
+                                      onClick={() => {
                                         deleteUser(user.id)
-                                        
                                       }}
                                     >
                                       حذف
-                                    </button>
+                                    </div>
                                   </td>
                                 </tr>
                               )
@@ -215,17 +310,14 @@ function Ad_Users() {
                           sx={
                             {
                               color : 'white !important',
-                              // backgroundColor : 'red'
                             }
                           }
-                          
                           count={countPage} 
                           page={currentPage}
                           color="standard" 
                           // Mui onchange get 2 Argumane and value of page is in second argumane////////
                           onChange={(event , value) => {
                             setCurrentPage(value)
-                            
                           }}
                         />
                     
@@ -235,6 +327,61 @@ function Ad_Users() {
               }
             </motion.div>
           </AnimatePresence>
+          <DialogBox
+            open={openDialog}
+            close={handleClose}
+            btnText={'افزودن'}
+            titleModal={'افزودن کاربر'}
+            btnHandler={addUser}
+          >
+            <div className='flex flex-col gap-3 items-center justify-center'>
+              <input 
+                type='text'
+                placeholder='نام'
+                name='firstName'
+                onChange={(event) => {
+                  changeInputHandler(event)
+                }}
+                className='border border-[#6363b4] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
+              />
+              <input 
+                type='text'
+                placeholder='نام خانوادگی'
+                name='lastName'
+                onChange={(event) => {
+                  changeInputHandler(event)
+                }}
+                className='border border-[#6363b4] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
+              />
+              <input 
+                type='text'
+                placeholder='ایمیل'
+                name='email'
+                onChange={(event) => {
+                  changeInputHandler(event)
+                }}
+                className='border border-[#6363b4] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
+                />
+              <select 
+                className='border border-[#6363b4] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
+                name='role'
+                onChange={(event) => {
+                  changeInputHandler(event)
+                }}
+              >
+                <option className='bg-[var(--bg-primary)]' value={''}>نقش کاربر</option>
+                <option className='bg-[var(--bg-primary)]' value={'مدیر'}>مدیر</option>
+                <option className='bg-[var(--bg-primary)]' value={'کاربر'}>کاربر</option>
+                <option className='bg-[var(--bg-primary)]' value={'پشتیبانی'}>پشتیبانی</option>
+              </select>
+                <div
+                  onClick={(event) => addUser(event)}
+                  className='bg-[var(--success-clr)] !p-3 rounded-2xl text-white cursor-pointer'
+                >
+                  افزودن
+                </div>
+            </div>
+          </DialogBox>
         </SnackbarProvider>
       </AdminLayout>
     </Styles>

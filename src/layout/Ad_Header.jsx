@@ -15,8 +15,8 @@ const Styles = styled.div`
     .btn {
         width: 100px;
         p a {
-            background-color: #8A0000;
-            color: #DC2525;
+            background-color: var(--err-clr);
+            color: white;
             padding: 0.5rem;
             display: block;
             width: 100%;

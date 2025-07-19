@@ -29,7 +29,7 @@ export default function Chart() {
               }
             },
           ]}
-          series={[{ data: [14, 3, 45 , 24 , 10 , 45 , 15 , 30 , 75 , 89 , 2 , 5] , color : '#A0A0D0'}]}
+          series={[{ data: [14, 3, 45 , 24 , 10 , 45 , 15 , 30 , 75 , 89 , 2 , 5] , color : '#3b82f6'}]}
           borderRadius={5}
           height={400}
           className='w-full'

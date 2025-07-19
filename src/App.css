@@ -6,15 +6,19 @@
   font-family: 'vazir';
 }
 :root {
-  --bg-primary : #1E1E2F;
-  --bg-sec : #2C2C3E;
-  --text-clr : #F1F1F1;
-  --text-2 : #D3D3FF;
-  --hover-text-clr : #3A4A6D ;
-  --err-text-clr : #FF6B6B;
-  --icon-clr : #A0A0D0;
-  --success-clr : #2E7D32;
-  --err-clr : #C62828 ;
+  --bg-primary: #0f172a;       
+  --bg-sec: #1e293b;           
+  --text-clr: #e2e8f0;       
+  --text-2: #c7d2fe;          
+  --hover-text-clr: #2563eb; 
+  --err-text-clr: #ef4444;    
+  --icon-clr: #94a3b8;      
+  --success-clr: #22c55e;     
+  --err-clr: #dc2626;         
+  --border-clr: #334155;      
+  --input-bg: #1e293b;        
+  --input-border: #3b82f6;   
+  --btn-bg : #2563eb; 
 }
 svg {
   width: 24px;
@@ -27,5 +31,17 @@ svg {
 }
 .scroll-cus::-webkit-scrollbar {
   width: 6px;
+}
+::-webkit-scrollbar {
+  width:8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-sec);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-2);
+  border-radius: 1rem;
 }
 

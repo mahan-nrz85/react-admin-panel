@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import DialogBox from '../components/Dialog';
 const Styles = styled.div`
   thead {
-    background-color: #6363b4;
+    background-color: var(--bg-sec);
     padding: 1rem !important;
   }
   table tbody tr {
@@ -18,10 +18,10 @@ const Styles = styled.div`
       background-color: rgba(19, 81, 214, 0.3);
     }
     &:nth-child(odd){
-      background-color: #252537;
+      background-color: #293d5e;
     }
     &:nth-child(even) {
-      background-color: #33334A;
+      background-color: #273349;
     }
   }
   table tbody tr:hover {
@@ -48,7 +48,8 @@ const Styles = styled.div`
     background-color: var(--icon-clr) !important;
   }
   .inp-search{
-    border: 1px solid #6363b4;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
     padding: 0.5rem;
     outline: none;
     margin-bottom: 1rem;
@@ -61,16 +62,13 @@ const Styles = styled.div`
   }
   option {
     cursor: pointer;
-    background-color: #252537;
+    background-color: var(--bg-sec);
   }
 
   .add-btn {
-    border: 1px solid #6363b4;
+    border: 1px solid var(--input-border);
+    background-color: var(--btn-bg);
     font-family: vazir;
-  }
-  .inp-add {
-    border: 1px solid #6363b4 !important;
-
   }
 `
 function Ad_Users() {
@@ -81,6 +79,8 @@ function Ad_Users() {
   const [searchValue , setSearchValue] = useState('')
   const [roleFilter , setRoleFilter] = useState('')
   const [openDialog , setOpenDialog] = useState(false)
+  const [editStatus , setEditStatus] = useState(false)
+  const [id , setId] = useState(null)
   const [errors, setErrors] = useState({});
   const [userInfo , setUserInfo] = useState({
     firstName : '',
@@ -159,7 +159,45 @@ function Ad_Users() {
       return enqueueSnackbar(val[1] , {variant:"error"})
     })
   }
-}
+  }
+  const editUser = async (id) => {    
+    console.log('id =>' , id);
+    
+    if (validateInputs()) {
+    try {
+      const req = await fetch(`http://localhost:4000/users/${userInfo.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          email: userInfo.email,
+          role: userInfo.role,
+        })
+      });
+      if(req.ok){
+        
+        enqueueSnackbar("کاربر با موفقیت ویرایش شد" , {variant : "success"})
+        setOpenDialog(false)
+        setId(null)
+        setUserInfo({
+          firstName : '',
+          lastName : '',
+          email : "",
+          role : ''
+        })
+      }
+    } catch (err) {
+      console.error('Fetch error:', err);
+    }
+  } else {
+    Object.entries(errors).map(val => {
+      return enqueueSnackbar(val[1] , {variant:"error"})
+    })
+  }
+  }
   // user search handle
   const searchUser = () => {
     let filterUser = [...users];
@@ -173,6 +211,14 @@ function Ad_Users() {
   }
   const handleClose = () => {
     setOpenDialog(false);
+    setUserInfo({
+          firstName : '',
+          lastName : '',
+          email : "",
+          role : ''
+        })
+    setEditStatus(false)
+    setId(null)
   };
   // input change handler
   const changeInputHandler = (event) => {
@@ -272,19 +318,32 @@ function Ad_Users() {
                         <tbody>
                           {
                             sliceUsers?.map((user , i) => {
+                              const {firstName , lastName , email , role} = user
                               return (
                                 <tr key={user.id}>
-                                  <td className='!p-2'>{user.firstName}</td>
-                                  <td className='!p-2'>{user.lastName}</td>
-                                  <td className='!p-2'>{user.email}</td>
-                                  <td className='!p-2'>{user.role}</td>
+                                  <td className='!p-2'>{firstName}</td>
+                                  <td className='!p-2'>{lastName}</td>
+                                  <td className='!p-2'>{email}</td>
+                                  <td className='!p-2'>{role}</td>
                                   <td className='!p-2 flex gap-3 items-center justify-center'>
+                                    {/* edit btn */}
                                     <button 
                                       className='action-btn'
                                       onClick={() => {
-                                        enqueueSnackbar("تو آپدیت بعدی اضافه میشه 😉" , {variant : "info"})
+                                        setId(user.id)
+                                        setUserInfo({
+                                          id : user.id,
+                                         firstName : firstName,
+                                         lastName : lastName,
+                                         email : email,
+                                         role : role
+                                        })
+                                        setOpenDialog(true)
+                                        setEditStatus(true)
+                                        // enqueueSnackbar("تو آپدیت بعدی اضافه میشه 😉" , {variant : "info"})
                                       }}
                                     >ویرایش</button>
+                                    {/* delete btn */}
                                     <div 
                                       className='action-btn'
                                       onClick={() => {
@@ -339,32 +398,36 @@ function Ad_Users() {
                 type='text'
                 placeholder='نام'
                 name='firstName'
+                value={userInfo.firstName}
                 onChange={(event) => {
                   changeInputHandler(event)
                 }}
-                className='border border-[#6363b4] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
+                className='border border-[var(--input-border)] bg-[var(--input-bg)] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
               />
               <input 
                 type='text'
                 placeholder='نام خانوادگی'
                 name='lastName'
+                value={userInfo.lastName}
                 onChange={(event) => {
                   changeInputHandler(event)
                 }}
-                className='border border-[#6363b4] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
+                className='border border-[var(--input-border)] bg-[var(--input-bg)] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
               />
               <input 
                 type='text'
                 placeholder='ایمیل'
                 name='email'
+                value={userInfo.email}
                 onChange={(event) => {
                   changeInputHandler(event)
                 }}
-                className='border border-[#6363b4] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
+                className='border border-[var(--input-border)] bg-[var(--input-bg)] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
                 />
               <select 
-                className='border border-[#6363b4] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
+                className='border border-[var(--input-border)] bg-[var(--input-bg)] w-[70%] outline-0 !p-3 rounded-2xl placeholder:text-gray-400 placeholder:text-[14px] text-white'
                 name='role'
+                value={userInfo.role}
                 onChange={(event) => {
                   changeInputHandler(event)
                 }}
@@ -375,10 +438,10 @@ function Ad_Users() {
                 <option className='bg-[var(--bg-primary)]' value={'پشتیبانی'}>پشتیبانی</option>
               </select>
                 <div
-                  onClick={(event) => addUser(event)}
-                  className='bg-[var(--success-clr)] !p-3 rounded-2xl text-white cursor-pointer'
+                  onClick={() => (editStatus) ? editUser() : addUser()}
+                  className='bg-[var(--btn-bg)] border border-[#334155] !p-3 rounded-2xl text-white cursor-pointer'
                 >
-                  افزودن
+                  {editStatus ? 'ویرایش' : 'افزودن'}
                 </div>
             </div>
           </DialogBox>

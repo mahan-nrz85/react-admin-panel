@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { lazy, useEffect, useState } from 'react'
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import AdminLayout from '../layout/AdminLayout'
-import Loading from '../components/Loading';
 import styled from 'styled-components';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack'
 import { AnimatePresence, motion } from "motion/react"
 import Button from '@mui/material/Button';
 import DialogBox from '../components/Dialog';
+const AdminLayout = lazy(() => import('../layout/AdminLayout'))
+const Loading = lazy(() => import('../components/Loading'))
 const Styles = styled.div`
   thead {
     background-color: var(--bg-sec);
@@ -60,6 +60,7 @@ const Styles = styled.div`
   select {
     cursor: pointer;
   }
+  
   option {
     cursor: pointer;
     background-color: var(--bg-sec);

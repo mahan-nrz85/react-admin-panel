@@ -1,5 +1,5 @@
-import React from 'react'
-import AdminLayout from '../layout/AdminLayout'
+import React, { lazy } from 'react'
+const AdminLayout = lazy(() => import('../layout/AdminLayout'))
 import {PeopleAlt, Article , DocumentScanner , BarChart , AreaChart} from '@mui/icons-material';
 import { Link } from 'react-router';
 import Chart from '../components/Chart';
@@ -28,10 +28,10 @@ function Ad_Dashboard() {
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-          <div className='grid grid-cols-2 gap-3'>
+          <div className='grid grid-cols-2 gap-5'>
             <div className='flex flex-col'>
             {/* status Cards */}
-              <div className='grid grid-cols-3  gap-2 w-[100%]'>
+              <div className='grid grid-cols-3  gap-5 w-[100%]'>
                 <div className='users-count w-[100%] h-24 rounded-2xl place-content-center !p-2 text-center  card-def'>
                   <Link to={'/users'}>
                     <div className='flex items-center justify-center gap-1'>
@@ -121,7 +121,7 @@ function Ad_Dashboard() {
               </div>
             {/* end Top */}
             {/* SSite Status */}
-            <div className='flex gap-2'>
+            <div className='flex gap-5'>
               <div className='!mt-4 card-def rounded-2xl !p-3 w-[50%]'>
                   <div className='flex items-center gap-2'>
                     <AreaChart style={{width : '28px' , height : '28px'}}/>

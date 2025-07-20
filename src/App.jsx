@@ -6,14 +6,33 @@ import Loading from './components/Loading';
 
 function AppRoutes() {
   const location = useLocation();
-  console.log(location);
-
+  const renderRoutes = (routes) => {
+    return routes.map((rout , i) => {
+      if(rout.children && rout.children.length > 0) {
+        return (
+          <Route 
+            path={rout.path}
+            element={rout.element}
+            key={i}
+          >
+            {renderRoutes(rout.children)}
+          </Route>
+        )
+      } else {
+        return (
+          <Route 
+            path={rout.path}
+            element={rout.element}
+            key={i}
+          />
+        )
+      }
+    })
+  }
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        {routes.map((val, i) => (
-          <Route key={i} path={val.path} element={val.element} />
-        ))}
+        {renderRoutes(routes)}
         <Route path='*' element={<Navigate to={'/dashboard'} replace/>}/>
       </Routes>
     </Suspense>

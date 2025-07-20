@@ -12,29 +12,12 @@ const Styles = styled.div`
     .h-container {
         width: 75%;
     }
-    .btn {
-        width: 100px;
-        p a {
-            background-color: var(--err-clr);
-            color: white;
-            padding: 0.5rem;
-            display: block;
-            width: 100%;
-            text-align: center;
-            border-radius: 10px;
-        }
-    }
 `
 function Ad_Header() {
   return (
     <Styles>
         <div className='h-container'>
             <span className='text-2xl '>پنل ادمین</span> <span>- خوش آمدید</span>
-        </div>
-        <div className='btn'>
-            <p>
-                <a href='#'>خروج</a>
-            </p>
         </div>
     </Styles>
   )

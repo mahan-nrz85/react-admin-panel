@@ -4,29 +4,72 @@ const Ad_Dashboard = lazy(() => import('../pages/Ad_Dashboard'))
 const Ad_Users = lazy(() => import('../pages/Ad_Users'))
 const Ad_Product = lazy(() => import('../pages/Ad_Product'))
 const Ad_Setting = lazy(() => import('../pages/Ad_Setting'))
+const Ad_Admins = lazy(() => import('../pages/settingPages/Ad_Admins'))
 export const routes = [
     {
         path : '/dashboard',
         icon : <HomeOutlined />,
         label : 'داشبورد',
-        element : <Ad_Dashboard />
+        element : <Ad_Dashboard /> ,
+        children : []
     },
     {
         path : '/users',
         icon : <PeopleOutlineOutlined />,
         label : 'کاربران',
-        element : <Ad_Users />
+        element : <Ad_Users /> ,
+        children : []
     },
     {
         path : '/product',
         icon : <Inventory2Outlined />,
         label : 'محصولات',
-        element : <Ad_Product />
+        element : <Ad_Product /> ,
+        children : [
+            {
+                title : 'سفارشات',
+                path : '/product/orders',
+                element : <Ad_Admins />,
+                icon : ''
+            },
+            {
+                title : 'مرجوعی',
+                path : '/product/re-send',
+                element : <Ad_Admins />,
+                icon : ''
+            },
+            {
+                title : 'پربازدید ترین',
+                path : '/product/view',
+                element : <Ad_Admins />,
+                icon : ''
+            },
+        ]
     },
     {
         path : '/setting',
         icon : <SettingsOutlined />,
         label : 'تنظیمات',
-        element : <Ad_Setting />
+        element : <Ad_Setting /> ,
+        children : [
+            {
+                title : 'لیست ادمین ها',
+                path : '/setting/admins',
+                element: <Ad_Admins />,
+                icon : '',
+            },
+            {
+                title : 'لیست کاربران ها',
+                path : '/setting/users',
+                element: <Ad_Admins />,
+                icon : '',
+            },
+            {
+                title : 'پشتیبانی',
+                path : '/setting/backup',
+                element: <Ad_Admins />,
+                icon : '',
+            },
+        ]
     },
 ]

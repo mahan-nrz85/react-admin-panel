@@ -12,7 +12,6 @@ const Styles = styled.div`
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     border-radius: 0.75rem;
     background: linear-gradient(145deg, #293d5e, #273349);
-    
   }
 `
 function Ad_Dashboard() {

@@ -5,6 +5,7 @@ const Ad_Users = lazy(() => import('../pages/Ad_Users'))
 const Ad_Product = lazy(() => import('../pages/Ad_Product'))
 const Ad_Setting = lazy(() => import('../pages/Ad_Setting'))
 const Ad_Admins = lazy(() => import('../pages/settingPages/Ad_Admins'))
+const Ad_newProduct = lazy(() => import('../pages/productPage/Ad_newProduct'))
 export const routes = [
     {
         path : '/dashboard',
@@ -27,21 +28,9 @@ export const routes = [
         element : <Ad_Product /> ,
         children : [
             {
-                title : 'سفارشات',
-                path : '/product/orders',
-                element : <Ad_Admins />,
-                icon : ''
-            },
-            {
-                title : 'مرجوعی',
-                path : '/product/re-send',
-                element : <Ad_Admins />,
-                icon : ''
-            },
-            {
-                title : 'پربازدید ترین',
-                path : '/product/view',
-                element : <Ad_Admins />,
+                title : 'افزودن محصول',
+                path : '/product/new-product',
+                element : <Ad_newProduct />,
                 icon : ''
             },
         ]

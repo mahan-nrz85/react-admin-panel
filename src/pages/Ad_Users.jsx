@@ -96,7 +96,7 @@ function Ad_Users() {
   const fetchUsers = async () => {
     setLoading(true)
     try {
-      const req = await fetch(`http://localhost:4000/users`);
+      const req = await fetch(`https://json-server-api-lbft.onrender.com/users`);
       if(req.status === 200) {
         const parsed = await req.json()
         setUser(parsed)
@@ -108,7 +108,7 @@ function Ad_Users() {
   }
   const deleteUser = async (id) => {    
     try {
-      const req = await fetch(`http://localhost:4000/users/${id}` , {
+      const req = await fetch(`https://json-server-api-lbft.onrender.com/users/${id}` , {
         method : 'DELETE'
       });
       
@@ -129,7 +129,7 @@ function Ad_Users() {
   const addUser = async (e) => {
   if (validateInputs()) {
     try {
-      const req = await fetch('http://localhost:4000/users', {
+      const req = await fetch('https://json-server-api-lbft.onrender.com/users', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
@@ -162,11 +162,11 @@ function Ad_Users() {
   }
   }
   const editUser = async (id) => {    
-    console.log('id =>' , id);
     
     if (validateInputs()) {
     try {
-      const req = await fetch(`http://localhost:4000/users/${userInfo.id}`, {
+      // const req = await fetch(`http://localhost:4000/users/${userInfo.id}`, {
+      const req = await fetch(`https://json-server-api-lbft.onrender.com/users/${userInfo.id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'

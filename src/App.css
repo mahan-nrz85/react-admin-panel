@@ -1,4 +1,11 @@
 @import "tailwindcss";
+@font-face {
+  font-family: 'vazir';
+  src: url(/src/assets/fonts/ttf/Vazirmatn-RD-Regular.ttf) format("ttf");
+}
+body {
+  font-family: "vazir";
+}
 *{
   padding: 0;
   margin: 0;

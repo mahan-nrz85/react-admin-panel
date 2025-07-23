@@ -1,5 +1,6 @@
 import { HomeOutlined , PeopleOutlineOutlined ,SettingsOutlined , Inventory2Outlined } from '@mui/icons-material';
 import { lazy } from 'react';
+import Ad_profile from '../pages/settingPages/Ad_profile';
 const Ad_Dashboard = lazy(() => import('../pages/Ad_Dashboard'))
 const Ad_Users = lazy(() => import('../pages/Ad_Users'))
 const Ad_Product = lazy(() => import('../pages/Ad_Product'))
@@ -42,23 +43,12 @@ export const routes = [
         element : <Ad_Setting /> ,
         children : [
             {
-                title : 'لیست ادمین ها',
-                path : '/setting/admins',
-                element: <Ad_Admins />,
+                title : 'پروفایل',
+                path : '/setting/profile',
+                element: <Ad_profile />,
                 icon : '',
             },
-            {
-                title : 'لیست کاربران ها',
-                path : '/setting/users',
-                element: <Ad_Admins />,
-                icon : '',
-            },
-            {
-                title : 'پشتیبانی',
-                path : '/setting/backup',
-                element: <Ad_Admins />,
-                icon : '',
-            },
+          
         ]
     },
 ]

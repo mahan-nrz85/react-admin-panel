@@ -119,6 +119,7 @@ function Ad_Users() {
           temp.splice(userIndex , 1);
           setUser(temp)
         }
+        enqueueSnackbar("کاربر با موفیت حذف شد" , {variant : "success"})
       } else {
         enqueueSnackbar("خطا در حذف کاربر" , {variant : "error"})
       }
@@ -179,7 +180,19 @@ function Ad_Users() {
         })
       });
       if(req.ok){
-        
+        setUser(prev => {
+          let temp = [...filterUser]
+          let userIndex = filterUser.findIndex(user => user.id === id)
+          if(userIndex !== -1){
+            temp[userIndex] = {...temp[userIndex] , 
+                              firstName : userInfo.firstName , 
+                              lastName : userInfo.lastName , 
+                              email : userInfo.email,
+                              role : userInfo.role
+                            }
+                          }
+          return temp
+        })
         enqueueSnackbar("کاربر با موفقیت ویرایش شد" , {variant : "success"})
         setOpenDialog(false)
         setId(null)

@@ -181,7 +181,7 @@ function Ad_Users() {
       });
       if(req.ok){
         setUser(prev => {
-          let temp = [...filterUser]
+          let temp = [...prev]
           let userIndex = filterUser.findIndex(user => user.id === id)
           if(userIndex !== -1){
             temp[userIndex] = {...temp[userIndex] , 

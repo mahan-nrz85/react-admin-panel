@@ -73,11 +73,15 @@ color: var(--text-clr);
     width: 80%;
     margin: 0 1rem;
     margin-bottom: 1rem;
-    p a {
+    p button{
         color: white;
         padding: 0.5rem;
         display: block;
         text-align: center;
+        cursor: pointer;
+    }
+    &:active{
+        transform: scale(0.9);
     }
     }
 
@@ -190,7 +194,7 @@ function AdminSideBar({
                 <p>
                     {
                         isOpen &&
-                        <a href='#'>خروج</a>
+                        <button>خروج</button>
 
                     }
                 </p>

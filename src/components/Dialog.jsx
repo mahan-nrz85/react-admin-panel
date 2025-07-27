@@ -12,7 +12,7 @@ const Styles = styled.div`
     font-family: 'vazir !important';
 `
 
-function DialogBox({open , close , children , titleModal , btnText , btnHandler}) {
+function DialogBox({open , close , children , titleModal}) {
   return (
     <Styles>
         <Dialog

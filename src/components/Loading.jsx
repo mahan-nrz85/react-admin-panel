@@ -20,9 +20,9 @@ height: 100vh;
   100% {box-shadow: 19px 0 0 0  , 38px 0 0 3px, 57px 0 0 7px}
 }
 `
-function Loading() {
+function Loading({classname}) {
   return (
-    <Styles>
+    <Styles className={classname}>
         <div className='loader'></div>
     </Styles>
   )

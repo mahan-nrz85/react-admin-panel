@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Loading from '../components/Loading'
 import { enqueueSnackbar, SnackbarProvider } from 'notistack'
+import {Visibility , VisibilityOff} from '@mui/icons-material';
 import { useNavigate } from 'react-router'
 const Styles = styled.div`
     .input-style {
@@ -39,6 +40,7 @@ function Login() {
         password : ''
     })
     const [loading , setLoading] = useState(false)
+    const [showPass , setShowPass] = useState(false)
     const handleInputChange = (event) => {
         let {value , name} = event.target;
         setUserData(prev => {
@@ -70,7 +72,12 @@ function Login() {
             if(parseData.accessToken) {
                 localStorage.setItem("user_data" , JSON.stringify(parseData))
                 Navigate('/dashboard')
+                enqueueSnackbar("ورود موفقیت آمیز" , {variant : "success"})
             }
+            setUserData({
+                password :'',
+                username :''
+            })
 
         }
         setLoading(false)
@@ -85,7 +92,7 @@ function Login() {
                     <h2 className='text-white text-2xl'>ورود به پنل</h2>
                     <p className='text-[12px] text-gray-500'>نام کاربری و رمز عبور خود را وارد کنید</p>
                     <div className='flex flex-col !mt-5'>
-                        <label  className='text-[14px] !mb-1 text-white' htmlFor="">نام کاربری</label>
+                        <label  className='text-[14px] !mb-1 text-white' htmlFor="">نام کاربری (emilys)</label>
                         <input 
                             type="text" 
                             className='input-style'
@@ -94,16 +101,20 @@ function Login() {
                             name='username'
                         />
                     </div>
-                    <div className='flex flex-col !mt-5'>
-                        <label  className='text-[14px] !mb-1 text-white' htmlFor="">رمز عبور</label>
+                    <div className='flex flex-col !mt-5 relative'>
+                        <label  className='text-[14px] !mb-1 text-white' htmlFor="">رمز عبور(emilyspass)</label>
                         <input 
-                            type="password" 
+                            type={`${(showPass) ? "text" : "password"}`}
                             className='input-style'
                             onChange={handleInputChange}
                             value={userData.password}
                             name='password'
 
                         />
+                        {
+                            (showPass) ? <VisibilityOff onClick={() => setShowPass(false)} className='absolute top-8 right-2 cursor-pointer' /> : <Visibility onClick={() => setShowPass(true)} className='absolute top-8 right-2 cursor-pointer' />
+                        }
+                        
                     </div>
                     {
                         (loading) ? 

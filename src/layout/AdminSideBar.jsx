@@ -64,21 +64,21 @@ color: var(--text-clr);
     margin-top: 1.5rem;
 }
 .btn {
-    width: 100px;
     display: flex;
     background-color: var(--err-clr);
     align-items: center;
     border-radius: 10px;
     justify-content: center;
     width: 80%;
+    height: 40px;
     margin: 0 1rem;
     margin-bottom: 1rem;
+    cursor: pointer;
     p button{
         color: white;
         padding: 0.5rem;
         display: block;
         text-align: center;
-        cursor: pointer;
     }
     &:active{
         transform: scale(0.9);
@@ -183,22 +183,24 @@ function AdminSideBar({
                 <ul className='flex flex-col items-center gap-5 p-4'>
                     {renderMenu}
                 </ul>
-            <div className={`btn ${isOpen ? '' : '!justify-between !bg-[transparent]'}`}>
-                <Logout 
-                    sx={
-                        {
-                            fill : 'black'
-                        }
-                    }
-                />
-                <p>
-                    {
-                        isOpen &&
-                        <button>خروج</button>
+                <Link to={'/logout'}>
+                    <div className={`btn ${isOpen ? '' : '!justify-between !bg-[transparent]'}`}>
+                        <Logout 
+                            sx={
+                                {
+                                    fill : 'black'
+                                }
+                            }
+                        />
+                        <p>
+                            {
+                                isOpen && 
+                                <button type='button'>خروج</button>
 
-                    }
-                </p>
-             </div>
+                            }
+                        </p>
+                    </div>
+                </Link>
             </div>
         </Styles>
     )

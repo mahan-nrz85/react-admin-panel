@@ -7,15 +7,15 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 
 function AppRoutes() {
-  // let navigate = useNavigate()
-  // useEffect(() => {
-  //   const isLogin = JSON.parse(localStorage.getItem("user_data"))    
-  //   if(isLogin) {
-  //     return;
-  //   } else {
-  //     navigate('/login')
-  //   }
-  // } , [])
+  let navigate = useNavigate()
+  useEffect(() => {
+    const isLogin = JSON.parse(localStorage.getItem("user_data"))    
+    if(isLogin) {
+      return;
+    } else {
+      navigate('/login')
+    }
+  } , [])
   const location = useLocation();
   const renderRoutes = (routes) => {
     return routes.map((rout , i) => {
@@ -43,7 +43,7 @@ function AppRoutes() {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        {/* <Route 
+        <Route 
           path='/login'
           element={<Login />}
 
@@ -52,7 +52,7 @@ function AppRoutes() {
           path='/logout'
           element={<Logout />}
 
-        /> */}
+        />
         {renderRoutes(routes)}
         {renderRoutes(routes)}
         <Route path='*' element={<Navigate to={'/dashboard'} replace/>}/>

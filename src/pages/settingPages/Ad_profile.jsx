@@ -100,7 +100,7 @@ function Ad_profile() {
               </div>
               <div className='flex gap-5 items-end justify-between absolute bottom-10 !p-3 w-full'>
                 <div className='flex items-end gap-5'>
-                  <img src={'../../public/image/profile.png'} alt='پروفایل' className='w-25 rounded-[9999px]'/>
+                  <img src={'/public/image/profile.png'} alt='پروفایل' className='w-25 rounded-[9999px]'/>
                     <div className='content'>
                       <h2 className='text-2xl'>ماهان نوروزی</h2>
                       <p>نقش : مدیر</p>

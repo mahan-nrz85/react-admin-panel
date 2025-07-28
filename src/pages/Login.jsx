@@ -132,7 +132,7 @@ function Login() {
                 </div>
             </div>
             <div className='img h-[100vh] overflow-hidden relative'>
-                <img src={'/public/image/login_bg.png'}/>
+                <img src={'/image/login_bg.png'}/>
                 <div className='absolute top-1/2 right-58 w-full'>
                     <h2 className='text-4xl'>ادمین پنل نوروزی</h2>
                 </div>
